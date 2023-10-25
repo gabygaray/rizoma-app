@@ -1,0 +1,86 @@
+.home-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  position: relative;
+  width: 70%;
+  height: 70%;
+  min-width: 50rem;
+  background-color: #fff;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: -14px 15px 35px 1px rgba(0, 0, 0, 0.75);
+}
+
+.home-card {
+  width: 190px;
+  height: 254px;
+  border-radius: 20px;
+  background: #f5f5f5;
+  position: relative;
+  padding: 1.8rem;
+  border: 2px solid #c3c6ce;
+  transition: 0.5s ease-out;
+  overflow: visible;
+
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.home-card.alumnos {
+  background-image: url("../../assets/icons/alumno.png");
+}
+
+.home-card.profesores {
+  background-image: url("../../assets/icons/profesor.png");
+}
+
+.home-card.actividades {
+  background-image: url("../../assets/icons/actividades.png");
+}
+
+.home-card-label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: translate(-50%, 125%);
+  width: 60%;
+  border-radius: 1rem;
+  border: none;
+  background-color: #e31b43;
+  color: #fff;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  opacity: 0;
+  transition: 0.3s ease-out;
+}
+
+/*Hover*/
+.home-card:hover {
+  border-color: #e31b43;
+  box-shadow: 0 4px 18px 0 rgba(0, 0, 0, 0.45);
+  cursor: pointer;
+}
+
+.home-card:hover .home-card-label {
+  transform: translate(-50%, 50%);
+  opacity: 1;
+}
+
+.home-logo {
+  width: 10rem;
+  height: 10rem;
+  display: flex;
+  position: absolute;
+  background-image: url("../../assets/icons/RizomaLogo.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  top: 0;
+  left: 0;
+}
