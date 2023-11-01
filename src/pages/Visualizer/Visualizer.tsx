@@ -1,37 +1,58 @@
-import {
-  useNavigate,
-  // useParams
-} from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { v4 as uuid } from "uuid";
+
 import "./styles.css";
+
+import { useAppDispatch, useAppSelector } from "../../app/store/hooks";
+import {
+  setActividadPorAlumno,
+  setProfesorPorActividad,
+} from "../../app/store/slices/appStateSlice";
+
 import { BackButton } from "../../components/backButton/BackButton";
 import { Switch } from "../../components/switch/Switch";
 import { TextField } from "../../components/textfield/TextField";
-import { useState } from "react";
-
-const mockActividades = [
-  { nombre: "CrossFit", id: 1 },
-  { nombre: "CrossTrainning", id: 2 },
-  { nombre: "Zumba", id: 3 },
-];
-
-const mockActividadesAdded = [
-  { nombre: "Entrenamiento funcional", id: 4 },
-  { nombre: "Entrenamiento personalizados", id: 5 },
-  { nombre: "Adultos mayores", id: 6 },
-  { nombre: "Gap", id: 7 },
-];
+import { initialStateForm } from "../../app/store/slices/contants";
 
 export const Visualizer = ({
   type,
 }: {
   type: "alumno" | "profesor" | "actividad";
 }) => {
-  //   const params = useParams();
   const navigate = useNavigate();
+  const { alumnoId, profesorId, actividadId } = useParams();
 
   const [step, setStep] = useState<1 | 2>(1);
 
-  //   const [activitiesAdded, setActivitiesAdded] = useState([]);
+  const {
+    dataBase: {
+      alumnos,
+      profesores,
+      actividades,
+      actividadPorAlumno,
+      profesorPorActividad,
+    },
+  } = useAppSelector((state) => state.appState);
+  const dispatch = useAppDispatch();
+
+  const [formState, setFormState] = useState(initialStateForm);
+
+  useEffect(() => {
+    if (type === "alumno") {
+      const alumnoFinded = alumnos.find((al) => al.id === alumnoId);
+      setFormState({ ...formState, ...alumnoFinded });
+    }
+
+    if (type === "profesor") {
+      const profesorFinded = profesores.find((pr) => pr.id === profesorId);
+      setFormState({ ...formState, ...profesorFinded });
+    }
+    if (type === "actividad") {
+      const actividadFinded = actividades.find((act) => act.id === actividadId);
+      setFormState({ ...formState, ...actividadFinded });
+    }
+  }, []);
 
   const goBack = () => {
     if (step === 2) return setStep(1);
@@ -47,6 +68,84 @@ export const Visualizer = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
+  };
+
+  const handleAddActivity = (idActividad: string) => {
+    if (type === "alumno") {
+      dispatch(
+        setActividadPorAlumno([
+          ...actividadPorAlumno,
+          { idActividadPorAlumno: uuid(), idActividad, idAlumno: alumnoId },
+        ]),
+      );
+    }
+
+    if (type === "profesor") {
+      dispatch(
+        setProfesorPorActividad([
+          ...profesorPorActividad,
+          {
+            idProfesorPorActividad: uuid(),
+            idActividad,
+            idProfesor: profesorId,
+          },
+        ]),
+      );
+    }
+  };
+
+  const handleDeleteActivity = (id: string) => {
+    if (type === "alumno") {
+      const newActividadPorAlumno = actividadPorAlumno.filter(
+        (act) => act.idActividadPorAlumno !== id,
+      );
+      dispatch(setActividadPorAlumno(newActividadPorAlumno));
+    }
+
+    if (type === "profesor") {
+      const newProfesorPorActividad = profesorPorActividad.filter(
+        (act) => act.idProfesorPorActividad !== id,
+      );
+
+      dispatch(setProfesorPorActividad(newProfesorPorActividad));
+    }
+  };
+
+  const getRegisteredActivities = () => {
+    let activitiesFiltered = [];
+
+    if (type === "alumno") {
+      activitiesFiltered = actividadPorAlumno.filter(
+        (act) => act.idAlumno === alumnoId,
+      );
+    }
+
+    if (type === "profesor") {
+      activitiesFiltered = profesorPorActividad.filter(
+        (act) => act.idProfesor === profesorId,
+      );
+    }
+
+    const result = activitiesFiltered.map((act) => ({
+      name: actividades.find((a) => a.id === act.idActividad).name,
+      idRelacion:
+        type === "alumno"
+          ? act.idActividadPorAlumno
+          : act.idProfesorPorActividad,
+      idActividad: act.idActividad,
+    }));
+
+    return result;
+  };
+
+  const getActivitiesFiltered = () => {
+    const result = actividades.filter(
+      (act) =>
+        !getRegisteredActivities().some(
+          (regAct) => regAct.idActividad === act.id,
+        ),
+    );
+    return result;
   };
 
   return (
@@ -70,37 +169,70 @@ export const Visualizer = ({
 
       {step === 1 && (
         <form onSubmit={handleSubmit} style={{ marginTop: "2rem" }}>
-          <TextField disabled={true} label="Nombre" value="Maria Victoria" />
+          <TextField
+            disabled={true}
+            label="Nombre"
+            value={formState.name}
+            name={"name"}
+          />
 
           {type !== "actividad" && (
             <>
               <TextField
                 disabled={true}
                 label="Apellido"
-                value="Rodriguez Oviedo"
+                value={formState.lastname}
+                name={"lastname"}
               />
-              <TextField disabled={true} label="DNI" value="35.324.234" />
+              <TextField
+                disabled={true}
+                label="DNI"
+                value={formState.dni}
+                name={"dni"}
+              />
               <TextField
                 disabled={true}
                 label="Fecha de Nacimiento"
-                value="21/04/1993"
+                value={formState.birthday}
+                name={"birthday"}
               />
-              <TextField disabled={true} label="Teléfono" value="3515541456" />
+              <TextField
+                disabled={true}
+                label="Teléfono"
+                value={formState.telephone}
+                name={"telephone"}
+              />
               <TextField
                 disabled={true}
                 label="Email"
-                value="lic.rodriguezoviedo@gmail.com"
+                value={formState.email}
+                name={"email"}
               />
-              <TextField disabled={true} label="Calle" value="Santa Ana" />
-              <TextField disabled={true} label="Número" value="2131" />
-              <TextField disabled={true} label="Barrio" value={"B° Jardin"} />
+              <TextField
+                disabled={true}
+                label="Calle"
+                value={formState.address}
+                name={"address"}
+              />
+              <TextField
+                disabled={true}
+                label="Número"
+                value={formState.number}
+                name={"number"}
+              />
+              <TextField
+                disabled={true}
+                label="Barrio"
+                value={formState.neighborhood}
+                name={"neighborhood"}
+              />
             </>
           )}
 
           {type === "alumno" && (
             <div className="switch-state-container">
               <label className="label-estado">Estado</label>
-              <Switch checked={true} />
+              <Switch checked={formState.state} />
             </div>
           )}
 
@@ -120,11 +252,14 @@ export const Visualizer = ({
             <div>
               <p>Por inscribir:</p>
               <div className="list-activities">
-                {mockActividades.map((act) => (
-                  <div className="list-activities-item">
-                    <p>{act.nombre}</p>
+                {getActivitiesFiltered().map((act) => (
+                  <div className="list-activities-item" key={act.id}>
+                    <p>{act.name}</p>
 
-                    <CustomButtom typeButton={"add"} />
+                    <CustomButtom
+                      typeButton={"add"}
+                      handleClick={() => handleAddActivity(act.id)}
+                    />
                   </div>
                 ))}
               </div>
@@ -133,10 +268,13 @@ export const Visualizer = ({
             <div>
               <p>En curso:</p>
               <div className="list-activities">
-                {mockActividadesAdded.map((act) => (
-                  <div className="list-activities-item">
-                    <p>{act.nombre}</p>
-                    <CustomButtom typeButton={"delete"} />
+                {getRegisteredActivities().map((act) => (
+                  <div className="list-activities-item" key={act.idRelacion}>
+                    <p>{act.name}</p>
+                    <CustomButtom
+                      typeButton={"delete"}
+                      handleClick={() => handleDeleteActivity(act.idRelacion)}
+                    />
                   </div>
                 ))}
               </div>
@@ -150,14 +288,17 @@ export const Visualizer = ({
 
 export const CustomButtom = ({
   typeButton,
+  handleClick,
 }: {
   typeButton: "add" | "delete";
+  handleClick: () => void;
 }) => {
   return (
     <button
       className={`cssbuttons-io-button ${
         typeButton === "add" ? "add-button-type" : "delete-button-type"
       }`}
+      onClick={handleClick}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"

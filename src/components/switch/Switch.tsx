@@ -9,7 +9,7 @@ export const Switch = ({
 }) => {
   return (
     <label className="switch">
-      <input checked={checked} type="checkbox" onClick={onClick} />
+      <input type="checkbox" checked={checked} onClick={onClick} />
       <div className="slider">
         <div className="circle">
           <svg

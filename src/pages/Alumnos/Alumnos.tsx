@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSnackbar } from "notistack";
+import { v4 as uuid } from "uuid";
 
 import "./styles.css";
 
@@ -8,12 +9,33 @@ import { Form } from "../../components/form/Form";
 import { BackButton } from "../../components/backButton/BackButton";
 import { Searcher } from "../../components/searcher/Searcher";
 
+import { Alumno } from "../../app/store/slices/appStateSlice.interface";
+import { useAppDispatch, useAppSelector } from "../../app/store/hooks";
+import { setAlumnos } from "../../app/store/slices/appStateSlice";
+import { validateEmptyProps } from "../../utils/utils";
+
 export const Alumnos = () => {
   const [step, setStep] = useState<"first" | "form" | "search">("first");
+
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
+  const dispatch = useAppDispatch();
+  const {
+    dataBase: { alumnos },
+  } = useAppSelector((state) => state.appState);
 
-  const handleCreateNewAlumno = () => {
+  const handleCreateNewAlumno = (alumno: Alumno) => {
+    if (validateEmptyProps(alumno))
+      return enqueueSnackbar("Todos los campos deben estar completos", {
+        variant: "error",
+      });
+
+    const newAlumno = {
+      ...alumno,
+      id: uuid(),
+    };
+    dispatch(setAlumnos([...alumnos, newAlumno]));
+
     setStep("first");
 
     enqueueSnackbar("Alumno creado correctamente", {

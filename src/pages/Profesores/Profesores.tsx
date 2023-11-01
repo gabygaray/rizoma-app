@@ -1,17 +1,38 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { enqueueSnackbar } from "notistack";
+import { v4 as uuid } from "uuid";
+
+import { useAppDispatch, useAppSelector } from "../../app/store/hooks";
+import { setProfesores } from "../../app/store/slices/appStateSlice";
 
 import "./styles.css";
 
 import { Form } from "../../components/form/Form";
 import { Searcher } from "../../components/searcher/Searcher";
+import { Profesor } from "../../app/store/slices/appStateSlice.interface";
+import { validateEmptyProps } from "../../utils/utils";
 
 export const Profesores = () => {
   const [step, setStep] = useState<"first" | "form" | "search">("first");
   const navigate = useNavigate();
 
-  const handleCreateNewProfesor = () => {
+  const dispatch = useAppDispatch();
+  const {
+    dataBase: { profesores },
+  } = useAppSelector((state) => state.appState);
+
+  const handleCreateNewProfesor = (profesor: Profesor) => {
+    if (validateEmptyProps(profesor))
+      return enqueueSnackbar("Todos los campos deben estar completos", {
+        variant: "error",
+      });
+
+    const newProfesor = {
+      ...profesor,
+      id: uuid(),
+    };
+    dispatch(setProfesores([...profesores, newProfesor]));
     setStep("first");
 
     enqueueSnackbar("Profesor creado correctamente", {
