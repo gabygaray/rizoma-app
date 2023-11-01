@@ -15,7 +15,7 @@ import { router } from "./routes/index.tsx";
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <Provider store={store}>
-      <SnackbarProvider autoHideDuration={2000} preventDuplicate maxSnack={1}>
+      <SnackbarProvider autoHideDuration={2000} maxSnack={3}>
         <RouterProvider router={router} />
       </SnackbarProvider>
     </Provider>

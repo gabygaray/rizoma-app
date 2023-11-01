@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useSnackbar } from "notistack";
 
 import { useAppDispatch, useAppSelector } from "../../app/store/hooks";
 import { initialStateForm } from "../../app/store/slices/contants";
@@ -13,7 +14,6 @@ import {
   setProfesores,
 } from "../../app/store/slices/appStateSlice";
 import { validateEmptyProps } from "../../utils/utils";
-import { useSnackbar } from "notistack";
 
 export const Editor = ({
   type,
@@ -83,6 +83,21 @@ export const Editor = ({
 
       dispatch(setActividades(newActividad));
     }
+
+    enqueueSnackbar(
+      type === "alumno"
+        ? "Alumno editado"
+        : type === "profesor"
+        ? "Profesor editado"
+        : "Actividad editada",
+      {
+        variant: "success",
+      },
+    );
+
+    setTimeout(() => {
+      navigate(`/${type === "alumno" ? type + "s" : type + "es"}`);
+    }, 2000);
   };
 
   return (

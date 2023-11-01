@@ -14,6 +14,7 @@ import {
   setProfesorPorActividad,
   setProfesores,
 } from "../../app/store/slices/appStateSlice";
+import { useSnackbar } from "notistack";
 
 export const Searcher = ({
   label,
@@ -132,6 +133,7 @@ export const ListItem = ({
     },
   } = useAppSelector((state) => state.appState);
   const dispatch = useAppDispatch();
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleDelete = (id: string) => {
     if (itemType === "alumno") {
@@ -155,6 +157,17 @@ export const ListItem = ({
         ),
       );
     }
+
+    enqueueSnackbar(
+      itemType === "alumno"
+        ? "Alumno eliminado"
+        : itemType === "profesor"
+        ? "Profesor eliminado"
+        : "Actividad eliminada",
+      {
+        variant: "success",
+      },
+    );
   };
 
   return (
