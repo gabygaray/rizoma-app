@@ -10,6 +10,7 @@ export interface AppStateSliceInitialState {
 }
 
 export interface Alumno {
+  id: number;
   name: string;
   lastname: string;
   dni: string;
@@ -20,10 +21,10 @@ export interface Alumno {
   number: string;
   neighborhood: string;
   state: boolean;
-  id: string;
 }
 
 export interface Profesor {
+  id: number;
   name: string;
   lastname: string;
   dni: string;
@@ -33,24 +34,23 @@ export interface Profesor {
   address: string;
   number: string;
   neighborhood: string;
-  id: string;
 }
 
 export interface Actividad {
+  id: number;
   name: string;
-  id: string;
 }
 
 export interface ActividadPorAlumno {
-  idActividadPorAlumno: string;
-  idAlumno: string;
-  idActividad: string;
+  idActividadPorAlumno: number;
+  idAlumno: number;
+  idActividad: number;
 }
 
 export interface ProfesorPorActividad {
-  idProfesorPorActividad: string;
-  idProfesor: string;
-  idActividad: string;
+  idProfesorPorActividad: number;
+  idProfesor: number;
+  idActividad: number;
 }
 
 export interface FormValues {
@@ -64,4 +64,18 @@ export interface FormValues {
   number: string;
   neighborhood: string;
   state: boolean;
+}
+
+export interface GetAlumnoResponse {
+  alumno_id: number;
+  name: string;
+  lastname: string;
+  dni: string;
+  birthday: string;
+  telephone: string;
+  email: string;
+  address: string;
+  number: string;
+  neighborhood: string;
+  state: string;
 }

@@ -119,7 +119,7 @@ export const ListItem = ({
   item,
   itemType,
 }: {
-  item: { name: string; state?: boolean; id: string };
+  item: { name: string; state?: boolean; id: number };
   itemType: "alumno" | "profesor" | "actividad";
 }) => {
   const navigate = useNavigate();
@@ -135,7 +135,7 @@ export const ListItem = ({
   const dispatch = useAppDispatch();
   const { enqueueSnackbar } = useSnackbar();
 
-  const handleDelete = (id: string) => {
+  const handleDelete = (id: number) => {
     if (itemType === "alumno") {
       dispatch(setAlumnos(alumnos.filter((al) => al.id !== id)));
     }

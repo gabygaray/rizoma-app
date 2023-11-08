@@ -1,13 +1,19 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import {
+  ActionReducerMapBuilder,
+  PayloadAction,
+  createSlice,
+} from "@reduxjs/toolkit";
 
 import { appStateSliceInitialState } from "./contants";
 import {
   Actividad,
   ActividadPorAlumno,
   Alumno,
+  AppStateSliceInitialState,
   Profesor,
   ProfesorPorActividad,
 } from "./appStateSlice.interface";
+import { fetchAlumnosThunk } from "../thunks/alumno.thunks";
 
 export const appStateSlice = createSlice({
   name: "appState",
@@ -37,6 +43,14 @@ export const appStateSlice = createSlice({
     ) => {
       state.dataBase.profesorPorActividad = action.payload;
     },
+  },
+  extraReducers: (builder: ActionReducerMapBuilder<any>) => {
+    builder.addCase(
+      fetchAlumnosThunk.fulfilled,
+      (state: AppStateSliceInitialState, action: PayloadAction<any>) => {
+        state.dataBase.alumnos = action.payload;
+      },
+    );
   },
 });
 

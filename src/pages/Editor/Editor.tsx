@@ -34,16 +34,18 @@ export const Editor = ({
 
   useEffect(() => {
     if (type === "alumno") {
-      const alumnoFinded = alumnos.find((al) => al.id === alumnoId);
+      const alumnoFinded = alumnos.find((al) => al.id === +alumnoId);
       setFormState({ ...formState, ...alumnoFinded });
     }
 
     if (type === "profesor") {
-      const profesorFinded = profesores.find((pr) => pr.id === profesorId);
+      const profesorFinded = profesores.find((pr) => pr.id === +profesorId);
       setFormState({ ...formState, ...profesorFinded });
     }
     if (type === "actividad") {
-      const actividadFinded = actividades.find((act) => act.id === actividadId);
+      const actividadFinded = actividades.find(
+        (act) => act.id === +actividadId,
+      );
       setFormState({ ...formState, ...actividadFinded });
     }
   }, [params]);
@@ -62,7 +64,7 @@ export const Editor = ({
 
     if (type === "alumno") {
       const newAlumnos = alumnos.map((al) =>
-        al.id === alumnoId ? { ...al, ...formValues } : al,
+        al.id === +alumnoId ? { ...al, ...formValues } : al,
       );
 
       dispatch(setAlumnos(newAlumnos));
@@ -70,7 +72,7 @@ export const Editor = ({
 
     if (type === "profesor") {
       const newProfesores = profesores.map((pf) =>
-        pf.id === profesorId ? { ...pf, ...formValues } : pf,
+        pf.id === +profesorId ? { ...pf, ...formValues } : pf,
       );
 
       dispatch(setProfesores(newProfesores));
@@ -78,7 +80,7 @@ export const Editor = ({
 
     if (type === "actividad") {
       const newActividad = actividades.map((act) =>
-        act.id === actividadId ? { ...act, ...formValues } : act,
+        act.id === +actividadId ? { ...act, ...formValues } : act,
       );
 
       dispatch(setActividades(newActividad));

@@ -6,31 +6,31 @@ import {
 const actividadesMock: Actividad[] = [
   {
     name: "CrossFit",
-    id: "01f64f47-64b5-4f93-8dfd-f3240e430038",
+    id: 1,
   },
   {
     name: "CrossTrainning",
-    id: "469362c4-fca4-431f-8b58-50a6952be995",
+    id: 2,
   },
   {
     name: "Zumba",
-    id: "e9da8956-594d-49a2-8d87-ee9f921cd761",
+    id: 3,
   },
   {
     name: "Entrenamiento funcional",
-    id: "3a62381b-4014-41b7-b517-b736f48e3236",
+    id: 4,
   },
   {
     name: "Entrenamiento personalizados",
-    id: "ec7592de-9f42-45ea-afcc-38637d5c8e51",
+    id: 5,
   },
   {
     name: "Adultos mayores",
-    id: "b527191e-f0e1-4dbd-abe6-428420371f8f",
+    id: 6,
   },
   {
     name: "Gap",
-    id: "27dd5eec-d086-4194-bbc7-911a0e755183",
+    id: 7,
   },
 ];
 
@@ -49,7 +49,7 @@ export const initialStateForm = {
 
 const mockAlumnos = [
   {
-    id: "4243525345",
+    id: 4243525345,
     name: "Gabriel Alejandro",
     lastname: "Garay",
     dni: "38324256",
@@ -62,7 +62,7 @@ const mockAlumnos = [
     state: true,
   },
   {
-    id: "424352534523423",
+    id: 42435253452342,
     name: "Luisa",
     lastname: "Martínez",
     dni: "40893271",
@@ -75,7 +75,7 @@ const mockAlumnos = [
     state: true,
   },
   {
-    id: "234234342",
+    id: 34234342,
     name: "Juan",
     lastname: "Pérez",
     dni: "30124567",
@@ -88,7 +88,7 @@ const mockAlumnos = [
     state: false,
   },
   {
-    id: "424352865975345",
+    id: 424352865975345,
     name: "María",
     lastname: "López",
     dni: "42235689",
@@ -101,7 +101,7 @@ const mockAlumnos = [
     state: true,
   },
   {
-    id: "424355687525345",
+    id: 424355687525345,
     name: "Pedro",
     lastname: "Gómez",
     dni: "29456123",
@@ -114,7 +114,7 @@ const mockAlumnos = [
     state: true,
   },
   {
-    id: "4243ergfe525345",
+    id: 4243525345,
     name: "Laura",
     lastname: "Fernández",
     dni: "37213456",
@@ -127,7 +127,7 @@ const mockAlumnos = [
     state: false,
   },
   {
-    id: "42435253567856945",
+    id: 424352535,
     name: "Carlos",
     lastname: "Rodríguez",
     dni: "34897654",
@@ -140,7 +140,7 @@ const mockAlumnos = [
     state: true,
   },
   {
-    id: "56745748asfc",
+    id: 56745748,
     name: "Ana",
     lastname: "Sánchez",
     dni: "38567912",
@@ -153,7 +153,7 @@ const mockAlumnos = [
     state: true,
   },
   {
-    id: "42435234234asf25345",
+    id: 4243523423425345,
     name: "Diego",
     lastname: "Ramírez",
     dni: "31548792",
@@ -166,7 +166,7 @@ const mockAlumnos = [
     state: false,
   },
   {
-    id: "2342234234gwdsv",
+    id: 2342234234,
     name: "Elena",
     lastname: "Hernández",
     dni: "39987601",
@@ -182,7 +182,7 @@ const mockAlumnos = [
 
 const mockProfesores = [
   {
-    id: "4243525345",
+    id: 4243525345,
     name: "Carlos",
     lastname: "Pérez",
     dni: "30345256",
@@ -194,7 +194,7 @@ const mockProfesores = [
     neighborhood: "San Lorenzo",
   },
   {
-    id: "234234567",
+    id: 234234567,
     name: "María",
     lastname: "González",
     dni: "42235689",
@@ -206,7 +206,7 @@ const mockProfesores = [
     neighborhood: "Alberdi",
   },
   {
-    id: "654321",
+    id: 654321,
     name: "Luis",
     lastname: "Sánchez",
     dni: "29456123",
@@ -218,7 +218,7 @@ const mockProfesores = [
     neighborhood: "General Paz",
   },
   {
-    id: "987654321",
+    id: 987654321,
     name: "Ana",
     lastname: "Rodríguez",
     dni: "37213456",
@@ -230,7 +230,7 @@ const mockProfesores = [
     neighborhood: "Observatorio",
   },
   {
-    id: "1234567890",
+    id: 1234567890,
     name: "Javier",
     lastname: "Martínez",
     dni: "34897654",
@@ -246,7 +246,7 @@ const mockProfesores = [
 export const appStateSliceInitialState: AppStateSliceInitialState = {
   authenticated: false,
   dataBase: {
-    alumnos: mockAlumnos,
+    alumnos: [],
     profesores: mockProfesores,
     actividades: actividadesMock,
     actividadPorAlumno: [],

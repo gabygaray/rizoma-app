@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSnackbar } from "notistack";
 import { v4 as uuid } from "uuid";
@@ -13,6 +13,7 @@ import { Alumno } from "../../app/store/slices/appStateSlice.interface";
 import { useAppDispatch, useAppSelector } from "../../app/store/hooks";
 import { setAlumnos } from "../../app/store/slices/appStateSlice";
 import { validateEmptyProps } from "../../utils/utils";
+import { fetchAlumnosThunk } from "../../app/store/thunks/alumno.thunks";
 
 export const Alumnos = () => {
   const [step, setStep] = useState<"first" | "form" | "search">("first");
@@ -23,6 +24,10 @@ export const Alumnos = () => {
   const {
     dataBase: { alumnos },
   } = useAppSelector((state) => state.appState);
+
+  useEffect(() => {
+    dispatch(fetchAlumnosThunk());
+  }, []);
 
   const handleCreateNewAlumno = (alumno: Alumno) => {
     if (validateEmptyProps(alumno))

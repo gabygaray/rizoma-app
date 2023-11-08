@@ -40,16 +40,18 @@ export const Visualizer = ({
 
   useEffect(() => {
     if (type === "alumno") {
-      const alumnoFinded = alumnos.find((al) => al.id === alumnoId);
+      const alumnoFinded = alumnos.find((al) => al.id === +alumnoId);
       setFormState({ ...formState, ...alumnoFinded });
     }
 
     if (type === "profesor") {
-      const profesorFinded = profesores.find((pr) => pr.id === profesorId);
+      const profesorFinded = profesores.find((pr) => pr.id === +profesorId);
       setFormState({ ...formState, ...profesorFinded });
     }
     if (type === "actividad") {
-      const actividadFinded = actividades.find((act) => act.id === actividadId);
+      const actividadFinded = actividades.find(
+        (act) => act.id === +actividadId,
+      );
       setFormState({ ...formState, ...actividadFinded });
     }
   }, []);
@@ -70,12 +72,12 @@ export const Visualizer = ({
     e.preventDefault();
   };
 
-  const handleAddActivity = (idActividad: string) => {
+  const handleAddActivity = (idActividad: number) => {
     if (type === "alumno") {
       dispatch(
         setActividadPorAlumno([
           ...actividadPorAlumno,
-          { idActividadPorAlumno: uuid(), idActividad, idAlumno: alumnoId },
+          { idActividadPorAlumno: uuid(), idActividad, idAlumno: +alumnoId },
         ]),
       );
     }
@@ -87,14 +89,14 @@ export const Visualizer = ({
           {
             idProfesorPorActividad: uuid(),
             idActividad,
-            idProfesor: profesorId,
+            idProfesor: +profesorId,
           },
         ]),
       );
     }
   };
 
-  const handleDeleteActivity = (id: string) => {
+  const handleDeleteActivity = (id: number) => {
     if (type === "alumno") {
       const newActividadPorAlumno = actividadPorAlumno.filter(
         (act) => act.idActividadPorAlumno !== id,
@@ -116,13 +118,13 @@ export const Visualizer = ({
 
     if (type === "alumno") {
       activitiesFiltered = actividadPorAlumno.filter(
-        (act) => act.idAlumno === alumnoId,
+        (act) => act.idAlumno === +alumnoId,
       );
     }
 
     if (type === "profesor") {
       activitiesFiltered = profesorPorActividad.filter(
-        (act) => act.idProfesor === profesorId,
+        (act) => act.idProfesor === +profesorId,
       );
     }
 
